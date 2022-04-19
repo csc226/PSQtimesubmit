@@ -12,6 +12,8 @@ var cors = require('cors');
 
 var fs = require('fs');
 
+var path = require('path');
+
 app.use(cors()); // http://127.0.0.1:3100/exe/log?date=1649760928923&count=12&name=css&tel=13312941203
 
 app.get('/exe/log', function (req, ress) {
@@ -30,13 +32,12 @@ app.get('/exe/log', function (req, ress) {
     telC = tel;
   }
 
-  var telArr = telText.split(',');
-  console.log(telArr.length);
-  console.log(telArr);
+  var telArr = telText.split(','); // console.log(telArr.length)
+  // console.log(telArr)
+
   var phone_reg = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
 
-  if (telArr.indexOf(tel) == -1 && phone_reg.test(tel)) {
-    fs.appendFileSync('./log/tel.txt', telC);
+  if (telArr.indexOf(tel) == -1 && phone_reg.test(tel)) {// fs.appendFileSync('./log/tel.txt',telC)
   } else if (telArr.indexOf(tel) > -1) {
     console.log("\u624B\u673A\u53F7\u91CD\u590D:".concat(tel, ",\u5BFC\u81F4\u4E0D\u80FD\u586B\u5199\u95EE\u5377"));
     info = ",\u4F46\u662F\u624B\u673A\u53F7\u91CD\u590D:".concat(tel, ",\u5BFC\u81F4\u4E0D\u80FD\u586B\u5199\u95EE\u5377");
@@ -45,6 +46,10 @@ app.get('/exe/log', function (req, ress) {
     info = ",\u4F46\u662F\u624B\u673A\u53F7\u683C\u5F0F\u4E0D\u5BF9:".concat(tel, ",\u5BFC\u81F4\u4E0D\u80FD\u586B\u5199\u95EE\u5377");
   }
 
+  console.log(__dirname);
+  fs.readFile(path.join(process.cwd(), './log/log.txt'), 'utf-8', function (err, data) {
+    console.log('读取文件：', data);
+  });
   ress.json('成功！'); // console.log(Number(query.date))
   // console.log(date)
   // console.log(count)

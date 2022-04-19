@@ -3,14 +3,14 @@
 // 第1天 // 3分钟1条 10个小时 200条
 $.get('http://127.0.0.1:3500/allDay/userInfo.json', function (res) {
   var arr = res;
-  var time = 868;
+  var time = 1398;
   var interval;
   var setTime = 1000;
 
   function exeTime() {
     // console.time()
     clearInterval(interval);
-    setTime = ((Math.random() * (180000 - 60000) + 60000) / 1000).toFixed(0) * 1000;
+    setTime = ((Math.random() * (180000 - 120000) + 120000) / 1000).toFixed(0) * 1000;
     console.log(setTime);
 
     if (time == arr.length - 1) {

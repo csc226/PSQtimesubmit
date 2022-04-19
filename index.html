@@ -5,8 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src=""></script>
 </head>
 <body>
-    s1
+    <div>aa</div>
+    <script type="module">
+        import data from './userInfo.js';
+        console.log(data)
+        var vname=(/^[a-zA-Z\u4e00-\u9fa5]{2,10}$/);
+        let nameArr=[];
+        data.map(ele=>{
+            if(!vname.test(ele.name)){
+                nameArr.push(ele.name)
+            }
+        });
+        console.log(nameArr)
+    </script>
 </body>
 </html>
