@@ -1,7 +1,7 @@
 // 第1天 // 3分钟1条 10个小时 200条
 $.get('http://127.0.0.1:3500/allDay/userInfo.json', function (res) {
     let arr = res;
-    let time = 2076;
+    let time = 2913;
     var interval;
     let setTime=1000;
     function exeTime(){
