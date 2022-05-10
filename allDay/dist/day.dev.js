@@ -3,7 +3,7 @@
 // 第1天 // 3分钟1条 10个小时 200条
 $.get('http://127.0.0.1:3500/allDay/userInfo.json', function (res) {
   var arr = res;
-  var time = 2913;
+  var time = 0;
   var interval;
   var setTime = 1000;
 
@@ -30,6 +30,11 @@ $.get('http://127.0.0.1:3500/allDay/userInfo.json', function (res) {
       $('#sch').val('霍营街道');
       $("#cla").val('霍家营社区');
       $("#trigger4").text('霍营街道 霍家营社区');
+
+      if (time > 2332) {
+        console.log('完成填报！');
+        return;
+      }
 
       if (time < 1500) {
         subject2 = 2;
