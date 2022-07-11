@@ -1,12 +1,152 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <script type="text/javascript">
+        var c, ctx, man, woman;
+
+        function drawMan(num) {
+            man = new Image();
+            man.src = "./man-gray.svg";
+            if (c.getContext) {
+                man.onload = function () {
+                    for (i = 0; i < num; i++) {
+                        console.log(i)
+                        ctx.drawImage(man, 38 * i, 0);
+                    }
+
+                }
+            }
+        }
+        function drawWoman(num) {
+            woman = new Image();
+            woman.src = "woman-gray.svg";
+            if (c.getContext) {
+
+                woman.onload = function () {
+                    for (i = 0; i < num; i++) {
+                        ctx.drawImage(woman, 38*8+38 * i, 0);
+                    }
+
+                }
+            }
+        }
+        function drawImg() {
+            c = document.getElementById("myCanvas")
+            ctx = c.getContext("2d");
+
+            drawMan(8)
+            drawWoman(3)
+        }
+
+        function getColorData(canvas, sex,r, imgWidth, i, num) {
+            // debugger
+            if(sex=='man'){
+                imageD = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            }else{
+                imageD = ctx.getImageData(38*8+imgWidth*i, 0, canvas.width, canvas.height);
+            }
+            
+
+            var pdata = imageD.data;
+            var colorArr = r.split(",");
+            // console.log(pdata, colorArr)
+            let len = pdata.length;
+            // let num = 0.5;
+            let lens = len * (1 - num)
+            // for (var j = 0; j < lens; j+=4) {
+            //     pdata[j] =colorArr[0];
+            //     pdata[j + 1] =  colorArr[1];
+            //     pdata[j + 2] = colorArr[2];
+            // }
+            for (var j = len - 2; j > lens; j -= 4) {
+                pdata[j] = colorArr[2];
+                pdata[j - 1] = colorArr[1];
+                pdata[j - 2] = colorArr[0];
+            }
+            console.log(pdata)
+            if(sex=='man'){
+                ctx.putImageData(imageD, imgWidth * i, 0);
+            }else{
+                ctx.putImageData(imageD, 38*8+imgWidth * i, 0);
+            }
+            
+            // let i = len - 2;
+            // let inter=setInterval(() => {
+            //     if (i > lens) {
+            //         pdata[i] = colorArr[2];
+            //         pdata[i - 1] = colorArr[1];
+            //         pdata[i - 2] = colorArr[0];
+
+            //         // console.log(imageD.data)
+            //         ctx.clearRect(0,0,c.width,c.height);  
+            //         ctx.putImageData(imageD, 0, 0);
+            //         i -= 4;
+            //     }else{
+            //         console.log('清除定时!')
+            //         clearInterval(inter)
+            //     }
+
+            // }, 0)
+
+        }
+
+        function noPhoto() {
+            alert("检查图片是否存在");
+        }
+        var i = 0;
+        function colorChange() {
+            // i++;
+            var c = "255,193,7";
+            let num = 73;
+            let len = Math.ceil(num / 10);
+
+            for (i = len - 1; i >= 0; i--) {
+                if (i == 0) {
+                    getColorData(man,'man',c, 38, i, (num % 10) / 10);
+                } else {
+                    getColorData(man,'man',c, 38, i, 1);
+                }
+
+            }
+            let wNum=27;
+            let wlen = Math.ceil(wNum / 10);
+            for (i = 0; i <wlen; i++) {
+                if (i == wlen - 1) {
+                    getColorData(man,'woman',c, 38, i, (wNum % 10) / 10);
+                } else {
+                    getColorData(man,'woman',c, 38, i, 1);
+                }
+
+            }
+
+        }
+
+    </script>
+
+    <script type="module">
+        import drawImg from './drawImgColor.js'
+        const drawimga = new drawImg('myCanvas', "255,212,100",'./man-gray.svg', 38,0);
+        const drawimgW = new drawImg('myCanvas', "255,193,7",'./woman-gray.svg', 38,8,'rl');
+        function draw(){
+            drawimga.colorChange(73);
+            drawimgW.colorChange(27);
+        }
+        document.body.onlode= draw();
+        // document.getElementById('btn').addEventListener('click',()=>{
+        //     console.log(100);
+        //     drawimga.getColorData(38,0,76)
+        // })
+    </script>
 </head>
-<body>
-    test
+
+<!-- <body style="background:#333;"> -->
+<body style="background:#333;">
+    <p>原始图片：</p>
+    <img id="myPhoto" src="./man-gray.svg" onerror="noPhoto()">
+    <p>Canvas图片：</p>
+    <canvas id="myCanvas" width="418" height="48"></canvas>
+    <button id="btn" onclick="colorChange()">变颜色啦！</button>
 </body>
+
 </html>
